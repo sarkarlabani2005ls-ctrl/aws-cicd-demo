@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo "Checking the website file..."
+      - test -f index.html
+      - grep -q "CI/CD is live" index.html
+
+artifacts:
+  files:
+    - index.html
+    - appspec.yml
+    - scripts/**/*
