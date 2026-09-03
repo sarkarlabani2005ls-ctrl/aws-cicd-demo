@@ -1,16 +1,11 @@
 version: 0.1
-
-files:
-  - source: /index.html
-    destination: /var/www/html/
-
-scripts:
-  BeforeDeploy:
-    - location: scripts/install-nginx.sh
-      timeout: 300
-      runas: root
-
-  AfterDeploy:
-    - location: scripts/start-nginx.sh
-      timeout: 300
-      runas: root
+phases:
+  install:
+    commands:
+      - chmod +x ./scripts/install-nginx.sh
+      - ./scripts/install-nginx.sh
+  deploy:
+    commands:
+      - cp ./index.html /var/www/html/index.html
+      - chmod +x ./scripts/start-nginx.sh
+      - ./scripts/start-nginx.sh
