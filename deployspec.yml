@@ -1,5 +1,16 @@
-   version: 0.2
-   phases:
-     build:
-       commands:
-         - aws ssm send-command --targets "Key=tag:Name,Values=cicd-demo-server" --document-name "AWS-RunShellScript" --parameters commands="aws s3 cp s3://cicd-demo-artifacts-laboni-2026/index.html /usr/share/nginx/html/index.html && sudo systemctl restart nginx"
+version: 0.1
+
+files:
+  - source: /index.html
+    destination: /var/www/html/
+
+scripts:
+  BeforeDeploy:
+    - location: scripts/install-nginx.sh
+      timeout: 300
+      runas: root
+
+  AfterDeploy:
+    - location: scripts/start-nginx.sh
+      timeout: 300
+      runas: root
